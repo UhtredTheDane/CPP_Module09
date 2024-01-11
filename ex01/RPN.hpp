@@ -10,4 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef RPN_HPP
+# define RPN_HPP
 
+# include <stack>
+# include <string>
+# include <iostream>
+# include <stdexcept>
+
+class RPN
+{
+    private:
+        std::stack<int> mstack;
+        RPN(void);
+        void    resolve(char c);
+
+    public:
+        RPN(std::string& input);
+        RPN(RPN const& toCopy);
+        RPN const& operator=(RPN const& toAffect);
+        ~RPN(void);
+        int getRes(void);
+};
+
+#endif

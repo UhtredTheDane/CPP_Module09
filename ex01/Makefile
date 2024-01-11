@@ -6,14 +6,14 @@
 #    By: agengemb <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 18:01:24 by agengemb          #+#    #+#              #
-#    Updated: 2023/12/29 14:19:01 by agengemb         ###   ########.fr        #
+#    Updated: 2024/01/09 15:09:41 by agengemb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD
-NAME = easy_find
-SRC= main.cpp
+NAME = RPN
+SRC= main.cpp RPN.cpp
 OBJ= $(SRC:.cpp=.o)
 DEP= ${OBJ:.o=.d}
 
