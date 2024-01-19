@@ -72,14 +72,9 @@ int main(int argc, char **argv)
 		time_t coco = mktime(&test_date);
 		if ( coco == -1 || copy.tm_year != test_date.tm_year || copy.tm_mon != test_date.tm_mon
 	        || copy.tm_mday != test_date.tm_mday )
-	{
-		std::cout << "Probleme: " << num_year << "-" << num_month << "-" << num_day << std::endl;
-		if (coco == -1)
-			std::cout << "coco\n";
-		std::cout << test_date.tm_year << " et " << copy.tm_year << std::endl;
-		std::cout << test_date.tm_mon << " et " << copy.tm_mon << std::endl;
-		std::cout << test_date.tm_mday << " et " << copy.tm_mday<< std::endl;
-	}
+		{
+			std::cout << "Probleme: " << num_year << "-" << num_month << "-" << num_day << std::endl;
+		}
 
 
 

@@ -11,3 +11,21 @@
 /* ************************************************************************** */
 
 
+#ifndef BITCOINEXCHANGE_HPP
+# define BITCOINEXCHANGE_HPP
+
+class BitcoinExchange
+{
+    public:
+
+        BitcoinExchange(std::string const& dataBase);
+        BitcoinExchange(BitcoinExchange const& toCopy);
+        ~BitcoinExchange(void);
+        BitcoinExchange& operator=(BitcoinExchange const& toAffect);
+
+    private:
+
+        BitcoinExchange(void);
+
+};
+#endif;
