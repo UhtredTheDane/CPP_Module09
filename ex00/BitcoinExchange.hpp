@@ -14,18 +14,33 @@
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
+# include <cfloat>
+# include <exception>
+# include <string.h>
+# include <iostream>
+# include <fstream>
+# include <sstream>
+# include <ctime>
+# include <cstdlib>
+# include <map>
+# include <string>
+
 class BitcoinExchange
 {
     public:
 
-        BitcoinExchange(std::string const& dataBase);
-        BitcoinExchange(BitcoinExchange const& toCopy);
+        BitcoinExchange(std::string& dataBase);
+        //BitcoinExchange(BitcoinExchange const& toCopy);
         ~BitcoinExchange(void);
-        BitcoinExchange& operator=(BitcoinExchange const& toAffect);
+        //BitcoinExchange& operator=(BitcoinExchange const& toAffect);
+        void showRes(std::string& inputFile);
+        std::map<time_t, float>& getMap();
 
     private:
-
+        
+        std::map<time_t, float> btc_map;
         BitcoinExchange(void);
+        void fillMap(std::stringstream& db_ss);
 
 };
-#endif;
+#endif
