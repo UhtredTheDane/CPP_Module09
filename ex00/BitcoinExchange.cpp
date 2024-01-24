@@ -17,7 +17,7 @@ BitcoinExchange::BitcoinExchange(void)
 
 }
 
-static time_t getKey(std::string const& key)
+static time_t getKey(std::string& key)
 {
 	std::stringstream ss_key;
 	ss_key << key;
@@ -26,6 +26,7 @@ static time_t getKey(std::string const& key)
 		
 	int num_year;
 	struct tm test_date;
+	bzero(&test_date, sizeof( test_date));
 	num_year = std::atoi(date.c_str());
 	test_date.tm_year = num_year - 1900;
 
@@ -46,9 +47,7 @@ static time_t getKey(std::string const& key)
 	time_t coco = mktime(&test_date);
 	if ( coco == -1 || copy.tm_year != test_date.tm_year || copy.tm_mon != test_date.tm_mon
 	    || copy.tm_mday != test_date.tm_mday )
-	{
 		throw(std::invalid_argument(std::string("Bad Date")));
-	}
 	return (coco);
 }
 
@@ -117,9 +116,34 @@ void BitcoinExchange::showRes(std::string& inputFile)
   	}
 	std::stringstream if_ss;
 	if_ss << if_file.rdbuf();
+
+	std::string record;
+	std::string key;
+	std::string value;
+	float true_value;
+	time_t true_key;
+
+	while (std::getline(if_ss, record))
+	{
+		std::stringstream line(record);
+		std::getline(line, key, '|');
+		std::getline(line, value, '\n');
+		
+
+		try
+		{
+			true_key = getKey(key);
+			true_value = getValue(value);
+			std::cout << btc_map[true_key] * true_value << std::endl;
+		}
+		catch(std::exception &e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+	}
 }
 
-/**
+/*
 BitcoinExchange::BitcoinExchange(BitcoinExchange const& toCopy)
 {
 

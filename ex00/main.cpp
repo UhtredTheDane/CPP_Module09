@@ -19,11 +19,14 @@ int main(int argc, char **argv)
 	(void) argv;
 	std::string db = "test.txt";
 	BitcoinExchange btc(db);
+	std::string inF = argv[1];
+	btc.showRes(inF);
 	std::map<time_t, float> m = btc.getMap();
-	for ( std::map<time_t, float>::const_iterator itMap = m.begin() ; itMap != m.end() ; ++itMap )
+
+	/*for ( std::map<time_t, float>::const_iterator itMap = m.begin() ; itMap != m.end() ; ++itMap )
 	{
 		std::cout << itMap->first << " -> " << itMap->second << std::endl;
 
-	}
+	}*/
 	return (0);
 }
