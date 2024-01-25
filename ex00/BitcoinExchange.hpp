@@ -30,16 +30,17 @@ class BitcoinExchange
     public:
 
         BitcoinExchange(std::string& dataBase);
-        //BitcoinExchange(BitcoinExchange const& toCopy);
+        BitcoinExchange(BitcoinExchange const& toCopy);
         ~BitcoinExchange(void);
-        //BitcoinExchange& operator=(BitcoinExchange const& toAffect);
+        BitcoinExchange& operator=(BitcoinExchange const& toAffect);
         void showRes(std::string& inputFile);
         std::map<time_t, float>& getMap();
+        BitcoinExchange(void);
 
     private:
         
         std::map<time_t, float> btc_map;
-        BitcoinExchange(void);
+        float getExchangeRate(time_t& key);
         void fillMap(std::stringstream& db_ss);
 
 };

@@ -17,6 +17,25 @@ BitcoinExchange::BitcoinExchange(void)
 
 }
 
+BitcoinExchange::BitcoinExchange(BitcoinExchange const& toCopy)
+	: btc_map(toCopy.btc_map)
+{
+
+}
+
+
+BitcoinExchange::~BitcoinExchange(void)
+{
+
+}
+
+BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const& toAffect)
+{
+	if (this != &toAffect)
+		btc_map = toAffect.btc_map;
+	return (*this);
+}
+
 static time_t getKey(std::string& key)
 {
 	std::stringstream ss_key;
@@ -107,6 +126,40 @@ BitcoinExchange::BitcoinExchange(std::string& dataBase)
 	
 }
 
+float BitcoinExchange::getExchangeRate(time_t& key)
+{
+	struct tm *m = NULL;
+	m = localtime(&key);
+
+	std::cout << "Day: " << m->tm_mday << std::endl;
+	std::cout << "month " << m->tm_mon << std::endl;
+	while (btc_map.find(key) == btc_map.end())
+	{
+		if (m->tm_mday > 1)
+		{
+			--m->tm_mday;
+			std::cout << "Day: " << m->tm_mday << std::endl;
+		}
+		else if (m->tm_mon > 0)
+		{
+			m->tm_mday = 29;
+		//	std::cout << "month " << m->tm_mon << std::endl;
+			--m->tm_mon;
+		//	std::cout << "month " << m->tm_mon << std::endl;
+		}
+		else
+		{
+			m->tm_mon = 11;
+		//	std::cout << "year " << m->tm_year << std::endl;
+			--m->tm_year;
+		}
+		//std::cout << "Day: " << m->tm_mday << std::endl;
+		key = mktime(m);
+		//std::cout << "Day: " << m->tm_mday << std::endl;
+	}
+	return (btc_map[key]);
+}
+
 void BitcoinExchange::showRes(std::string& inputFile)
 {
 	std::ifstream if_file(inputFile.c_str());
@@ -128,13 +181,11 @@ void BitcoinExchange::showRes(std::string& inputFile)
 		std::stringstream line(record);
 		std::getline(line, key, '|');
 		std::getline(line, value, '\n');
-		
-
 		try
 		{
 			true_key = getKey(key);
 			true_value = getValue(value);
-			std::cout << btc_map[true_key] * true_value << std::endl;
+			std::cout << true_value * getExchangeRate(true_key) << std::endl;
 		}
 		catch(std::exception &e)
 		{
@@ -142,21 +193,3 @@ void BitcoinExchange::showRes(std::string& inputFile)
 		}
 	}
 }
-
-/*
-BitcoinExchange::BitcoinExchange(BitcoinExchange const& toCopy)
-{
-
-}
-*/
-
-BitcoinExchange::~BitcoinExchange(void)
-{
-
-}
-
-/*
-BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const& toAffect)
-{
-
-}*/
