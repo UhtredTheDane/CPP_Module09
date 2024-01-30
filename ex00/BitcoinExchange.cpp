@@ -92,7 +92,7 @@ void BitcoinExchange::fillMap(std::stringstream& db_ss)
 	while (std::getline(db_ss, record))
 	{
 		std::stringstream line(record);
-		std::getline(line, key, '|');
+		std::getline(line, key, ',');
 		std::getline(line, value, '\n');
 
 		try
@@ -123,39 +123,56 @@ BitcoinExchange::BitcoinExchange(std::string& dataBase)
 	std::stringstream db_ss;
 	db_ss << db_file.rdbuf();
 	fillMap(db_ss);
-	
+}
+
+time_t &test(struct tm& tc, time_t& key)
+{
+	struct tm copy;
+	bzero(&copy, sizeof(copy));
+	copy.tm_year = tc.tm_year;
+	copy.tm_mon = tc.tm_mon;
+	copy.tm_mday = tc.tm_mday;
+	key = mktime(&tc);
+	while (key == -1 || copy.tm_year != tc.tm_year || copy.tm_mon != tc.tm_mon
+	    	|| copy.tm_mday != tc.tm_mday )
+	{
+			tc.tm_year = copy.tm_year;
+			tc.tm_mon = copy.tm_mon;
+			tc.tm_mday = copy.tm_mday - 1;
+			copy.tm_mday = tc.tm_mday;
+			key = mktime(&tc);
+	}
+	return (key);
 }
 
 float BitcoinExchange::getExchangeRate(time_t& key)
 {
 	struct tm *m = NULL;
 	m = localtime(&key);
+	struct tm tc;
+	bzero(&tc, sizeof(tc));
 
-	std::cout << "Day: " << m->tm_mday << std::endl;
-	std::cout << "month " << m->tm_mon << std::endl;
+	tc.tm_mday = m->tm_mday;
+	tc.tm_mon = m->tm_mon;
+	tc.tm_year = m->tm_year;
 	while (btc_map.find(key) == btc_map.end())
 	{
-		if (m->tm_mday > 1)
+		if (tc.tm_mday > 1)
 		{
-			--m->tm_mday;
-			std::cout << "Day: " << m->tm_mday << std::endl;
+			--tc.tm_mday;
 		}
-		else if (m->tm_mon > 0)
+		else if (tc.tm_mon > 0)
 		{
-			m->tm_mday = 29;
-		//	std::cout << "month " << m->tm_mon << std::endl;
-			--m->tm_mon;
-		//	std::cout << "month " << m->tm_mon << std::endl;
+			tc.tm_mday = 31;
+			--tc.tm_mon;
 		}
 		else
 		{
-			m->tm_mon = 11;
-		//	std::cout << "year " << m->tm_year << std::endl;
-			--m->tm_year;
+			tc.tm_mday = 31;
+			tc.tm_mon = 11;
+			--tc.tm_year;
 		}
-		//std::cout << "Day: " << m->tm_mday << std::endl;
-		key = mktime(m);
-		//std::cout << "Day: " << m->tm_mday << std::endl;
+		key = test(tc, key);
 	}
 	return (btc_map[key]);
 }

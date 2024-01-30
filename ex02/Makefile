@@ -12,8 +12,8 @@
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD
-NAME = RPN
-SRC= main.cpp
+NAME = PmergeMe
+SRC= main.cpp PmergeMe.cpp
 OBJ= $(SRC:.cpp=.o)
 DEP= ${OBJ:.o=.d}
 
