@@ -24,6 +24,7 @@
 # include <cstdlib>
 # include <map>
 # include <string>
+# include <climits>
 
 class BitcoinExchange
 {

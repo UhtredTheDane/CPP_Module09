@@ -17,6 +17,18 @@ BitcoinExchange::BitcoinExchange(void)
 
 }
 
+BitcoinExchange::BitcoinExchange(std::string& dataBase)
+{
+    std::ifstream db_file(dataBase.c_str());
+	if (!db_file.is_open())
+	{
+    	std::cout << "Could not open the file - '" << dataBase << "'" << std::endl;
+  	}
+	std::stringstream db_ss;
+	db_ss << db_file.rdbuf();
+	fillMap(db_ss);
+}
+
 BitcoinExchange::BitcoinExchange(BitcoinExchange const& toCopy)
 	: btc_map(toCopy.btc_map)
 {
@@ -43,17 +55,19 @@ static time_t getKey(std::string& key)
 	std::string date;
 	std::getline(ss_key, date, '-');
 		
-	int num_year;
 	struct tm test_date;
 	bzero(&test_date, sizeof( test_date));
-	num_year = std::atoi(date.c_str());
+	std::string str_year = date.c_str();
+	int num_year = std::atoi(date.c_str());
 	test_date.tm_year = num_year - 1900;
 
 	std::getline(ss_key, date, '-');
+	std::string str_month = date.c_str();
 	int num_month = std::atoi(date.c_str());
 	test_date.tm_mon = num_month - 1;
 
 	std::getline(ss_key, date, '-');
+	std::string str_day = date.c_str();
 	int num_day = std::atoi(date.c_str());
 	test_date.tm_mday = num_day;
 		
@@ -66,7 +80,7 @@ static time_t getKey(std::string& key)
 	time_t coco = mktime(&test_date);
 	if ( coco == -1 || copy.tm_year != test_date.tm_year || copy.tm_mon != test_date.tm_mon
 	    || copy.tm_mday != test_date.tm_mday )
-		throw(std::invalid_argument(std::string("Bad Date")));
+		throw(std::invalid_argument(std::string("Bad Input => " + str_year + "-" + str_month + "-" + str_day)));
 	return (coco);
 }
 
@@ -76,9 +90,11 @@ static float getValue(std::string const& value)
 	std::stringstream ss_stream(value);
 	ss_stream >> numeric_value;
 	
-	if (numeric_value >= FLT_MAX * -1 && numeric_value <= FLT_MAX)
-		return (numeric_value);
-	throw(std::out_of_range(std::string("Overflow")));
+	if (numeric_value < 0)
+		throw(std::out_of_range("Not a positive number"));
+	if (numeric_value > INT_MAX)
+		throw(std::out_of_range(std::string("too large number")));
+	return (numeric_value);
 }
 
 void BitcoinExchange::fillMap(std::stringstream& db_ss)
@@ -88,13 +104,13 @@ void BitcoinExchange::fillMap(std::stringstream& db_ss)
 	std::string value;
 	float true_value;
 	time_t true_key;
+	std::getline(db_ss, record);
 
 	while (std::getline(db_ss, record))
 	{
 		std::stringstream line(record);
 		std::getline(line, key, ',');
 		std::getline(line, value, '\n');
-
 		try
 		{
 			true_key = getKey(key);
@@ -103,7 +119,7 @@ void BitcoinExchange::fillMap(std::stringstream& db_ss)
 		}
 		catch(std::exception &e)
 		{
-			std::cout << e.what() << std::endl;
+			std::cout << "Error in csv file: " << e.what() << std::endl;
 		}
 	}
 }
@@ -111,18 +127,6 @@ void BitcoinExchange::fillMap(std::stringstream& db_ss)
 std::map<time_t, float>& BitcoinExchange::getMap()
 {
 	return (btc_map);
-}
-
-BitcoinExchange::BitcoinExchange(std::string& dataBase)
-{
-    std::ifstream db_file(dataBase.c_str());
-	if (!db_file.is_open())
-	{
-    	std::cout << "Could not open the file - '" << dataBase << "'" << std::endl;
-  	}
-	std::stringstream db_ss;
-	db_ss << db_file.rdbuf();
-	fillMap(db_ss);
 }
 
 time_t &test(struct tm& tc, time_t& key)
@@ -193,6 +197,7 @@ void BitcoinExchange::showRes(std::string& inputFile)
 	float true_value;
 	time_t true_key;
 
+	std::getline(if_ss, record);
 	while (std::getline(if_ss, record))
 	{
 		std::stringstream line(record);
@@ -202,11 +207,11 @@ void BitcoinExchange::showRes(std::string& inputFile)
 		{
 			true_key = getKey(key);
 			true_value = getValue(value);
-			std::cout << true_value * getExchangeRate(true_key) << std::endl;
+			std::cout << key << "=>" << value << " = " << true_value * getExchangeRate(true_key) << std::endl;
 		}
 		catch(std::exception &e)
 		{
-			std::cout << e.what() << std::endl;
+			std::cout << "Error: " << e.what() << std::endl;
 		}
 	}
 }

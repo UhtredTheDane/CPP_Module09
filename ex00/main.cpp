@@ -29,14 +29,14 @@ int main(int argc, char **argv)
 	}*/
 
 
-	
+	/*
 	BitcoinExchange btc2(btc);
 	std::cout << &btc.getMap() << std::endl;
 	std::cout << &btc2.getMap() << std::endl;
 	BitcoinExchange btc3;
 	btc3 = btc;
 	std::cout << &btc.getMap() << std::endl;
-	std::cout << &btc3.getMap() << std::endl;
+	std::cout << &btc3.getMap() << std::endl;*/
 
 	return (0);
 }
