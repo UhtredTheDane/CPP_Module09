@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:09:44 by agengemb          #+#    #+#             */
-/*   Updated: 2024/01/09 14:09:45 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:27:06 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ class PmergeMe
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
 
-    private:
-
-        std::vector<std::pair<int, int> > vec;
+        std::vector<int> vec;
 
     
 };
