@@ -28,7 +28,7 @@ class PmergeMe
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
 
-        std::vector<int> vec;
+        std::vector<std::pair<int, int> > vec;
 
     
 };
