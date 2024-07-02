@@ -22,20 +22,22 @@ void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end)
 	RIndex = 0;
 	std::vector<std::pair<int, int> > LVec(vec.begin() + deb, vec.begin() + mid + 1);
 
+	std::cout << "LVec: ";
 	for (std::vector<std::pair<int, int> >::iterator it = LVec.begin(); it != LVec.end(); ++it)
 	{
 		std::cout << it->first << " ";
 	}
 	std::cout << std::endl;
 
-	std::vector<std::pair<int, int> > RVec(vec.begin() + mid + 1, vec.end());
+	std::cout << "RVec: ";
+	std::vector<std::pair<int, int> > RVec(vec.begin() + mid + 1, vec.begin() + end + 1);
 	for (std::vector<std::pair<int, int> >::iterator it = RVec.begin(); it != RVec.end(); ++it)
 	{
 		std::cout << it->first << " ";
 	}
 	std::cout << std::endl;
 
-	for (int i = deb; i < end - deb + 1; ++i)
+	for (int i = deb; i < end + 1; ++i)
 	{
 		if (RIndex == RSize)
 		{
@@ -89,7 +91,7 @@ int main(int argc, char **argv)
 	{
 		a = atoi(argv[i + 1]);
 		b = atoi(argv[i + 2]);
-		if (a > b)
+		if (a < b)
 		{
 			vec.push_back(std::pair<int, int>(b, a));
 		}
@@ -110,10 +112,45 @@ int main(int argc, char **argv)
 		std::cout << it->first << " " << it->second << " ";
 	}
 	std::cout << std::endl;
+	std::cout << "size " << vec.size() - 1 << std::endl;
 	sort(vec, 0, vec.size() - 1);
+
+	std::vector<int> vecFinal;
+	std::vector<int> toInsert;
 	for (std::vector<std::pair<int, int> >::iterator it = vec.begin(); it != vec.end(); ++it)
 	{
-		std::cout << it->first << " " << it->second << " ";
+		if (it == vec.begin())
+			vecFinal.push_back(it->second);
+		else
+			toInsert.push_back(it->second);
+		vecFinal.push_back(it->first);
+	}
+
+	int old_size = 0;
+	int p2 = 2;
+
+	
+	int j = 4;
+
+
+	int size;
+	while (toInsert.size() > 0)
+	{
+		size = p2 - old_size;
+		for (int i = size - 1; i >= 0; ++i)
+		{
+			int numtoinsert = toInsert[i];
+			--j;
+			
+		}
+
+		j += size;
+
+	}
+	
+	for (std::vector<int>::iterator it = toInsert.begin(); it != toInsert.end(); ++it)
+	{
+		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 	return (0);
