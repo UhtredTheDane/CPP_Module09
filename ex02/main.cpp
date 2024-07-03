@@ -131,37 +131,58 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
-
-
-
-	int interDeb = 0;
-	int interEnd = 3; //non inclus
-	int nbToInsert = toInsert[0];
-	int n = interEnd - interDeb;
-
-	while (n > 1)
+	int nbInsert = toInsert.size();
+	int size = 2;
+	int old_size = 0;
+	int endToInsert = 3;
+	int debToInsert = 2;
+	while (nbInsert > 0)
 	{
-		n /= 2;
-		if (nbToInsert > vecFinal[n])
+
+		int interDeb = 0;
+		int interEnd = endToInsert; //non inclus
+		for (int i = endToInsert; i >= debToInsert; ++i)
 		{
-			interDeb = n + 1;
-		}
-		else
-		{
-			interEnd = n;
-		}
-		n = interEnd - interDeb;
-		if (n == 1)
-		{
-			if (nbToInsert >  vecFinal[interDeb])
+
+			
+			
+			//int interDeb = 0;
+			//int interEnd = i; //non inclus
+			int nbToInsert = toInsert[i - size];
+			int n = interEnd - interDeb;
+			while (n > 1)
 			{
-				vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+				n /= 2;
+				if (nbToInsert > vecFinal[n])
+					interDeb = n + 1;
+				else
+					interEnd = n;
+				n = interEnd - interDeb;
+				if (n == 1)
+				{
+					if (nbToInsert >  vecFinal[interDeb])
+					{
+						vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+					}
+					else
+					{
+						vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
+						++interEnd;
+					}
+				}
 			}
-			else
-			{
-				vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
-			}
+			--nbToInsert;
+
+
+
+
+
+
 		}
+		size += old_size;
+		endToInsert += size;
+		debToInsert += size
+
 	}
 /*
 	int temp_size;
@@ -170,27 +191,13 @@ int main(int argc, char **argv)
 
 	int nbInsert = toInsert.size();
 	
-	int old_size = 0;
-	int size = 2;
 
 	int debToInsert = 2;
 	int endToInsert = debToInsert + size - 1
 	//while (nbInsert != 0)
 	//{
 
-		for (int i = endToInsert; i >= debToInsert; ++i)
-		{
-
-			int nbToInsert = toInsert[i];
-			
-			while (old_n - n > 1)
-			{
-				if (nbToInsert > vecFinal[n])
-				
-			}
-			n /= 2;
-
-		}
+	
 
 
 		debToInsert += size;
