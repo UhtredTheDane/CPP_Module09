@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/06/17 17:58:39 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:45:01 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,8 @@ void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end)
 	RIndex = 0;
 	std::vector<std::pair<int, int> > LVec(vec.begin() + deb, vec.begin() + mid + 1);
 
-	std::cout << "LVec: ";
-	for (std::vector<std::pair<int, int> >::iterator it = LVec.begin(); it != LVec.end(); ++it)
-	{
-		std::cout << it->first << " ";
-	}
-	std::cout << std::endl;
 
-	std::cout << "RVec: ";
 	std::vector<std::pair<int, int> > RVec(vec.begin() + mid + 1, vec.begin() + end + 1);
-	for (std::vector<std::pair<int, int> >::iterator it = RVec.begin(); it != RVec.end(); ++it)
-	{
-		std::cout << it->first << " ";
-	}
-	std::cout << std::endl;
 
 	for (int i = deb; i < end + 1; ++i)
 	{
@@ -74,7 +62,7 @@ void sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		merge(vec, deb, mid, end);
 	}
 }
-
+/*
 void insert2(std::vector<int> vecFinal, std::vector<int> test)
 {
 	int n = VecFinal.size();
@@ -91,7 +79,7 @@ void insert(std::vector<int> vecToInsert, int debToInsert, int endToInsert)
 	int n = VecFinal.size();
 	while (n !)
 }
-
+*/
 int main(int argc, char **argv)
 {
 	(void) argv;
@@ -143,9 +131,12 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
+
+
+
 	int interDeb = 0;
 	int interEnd = 3; //non inclus
-	int nbToInsert = toInsert[3];
+	int nbToInsert = toInsert[0];
 	int n = interEnd - interDeb;
 
 	while (n > 1)
@@ -237,7 +228,7 @@ int main(int argc, char **argv)
 
 	}*/
 	
-	for (std::vector<int>::iterator it = toInsert.begin(); it != toInsert.end(); ++it)
+	for (std::vector<int>::iterator it = vecFinal.begin(); it != vecFinal.end(); ++it)
 	{
 		std::cout << *it << " ";
 	}
