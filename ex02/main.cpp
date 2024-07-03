@@ -143,33 +143,53 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
-	int old_size = 0;
+
+
 	int temp_size;
-	int nbInsert = toInsert.size();
 	int size = 2;
 	int indexMaxToInsert;
-	int debToInsert = 2;
-	while (nbInsert != 0)
-	{
 
-		indexMaxToInsert = size - 1;
-		insert(debToInsert, endToInsert);
+	int nbInsert = toInsert.size();
+	
+	int old_size = 0;
+	int size = 2;
+
+	int debToInsert = 2;
+	int endToInsert = debToInsert + size - 1
+	//while (nbInsert != 0)
+	//{
+
+		for (int i = endToInsert; i >= debToInsert; ++i)
+		{
+
+			int nbToInsert = toInsert[i];
+			int n = i;
+			int old_n = n;
+			n /= 2;
+			while (old_n - n > 1)
+			{
+				if (nbToInsert > vecFinal[n])
+				
+			}
+			n /= 2;
+
+		}
+
+
+		debToInsert += size;
+		endToInsert = debToInsert + size - 1
+
+
+
+
+
+	/*int n = VecFinal.size();
+	while (n !)
 		temp_size = size;
 		nbInsert -= size;
 		size += old_size;
 		old_size = temp_size;
-	}
-
-
-
-
-
-
-
-
-
-
-
+	}*/
 
 
 	/*
