@@ -62,6 +62,7 @@ void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end)
 	}
 }
 
+
 void sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 {
 	int mid;
@@ -72,6 +73,23 @@ void sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		sort(vec, mid + 1, end);
 		merge(vec, deb, mid, end);
 	}
+}
+
+void insert2(std::vector<int> vecFinal, std::vector<int> test)
+{
+	int n = VecFinal.size();
+	while (n !)
+}
+
+void insert(std::vector<int> vecToInsert, int debToInsert, int endToInsert)
+{
+	std::vector<int> test;
+
+	for (int i = endToInsert; i >= debToInsert; ++i)
+		test.push_back(vecToInsert[i]);
+	insert2();
+	int n = VecFinal.size();
+	while (n !)
 }
 
 int main(int argc, char **argv)
@@ -125,11 +143,36 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
-
 	int old_size = 0;
-	int p2 = 2;
+	int temp_size;
+	int nbInsert = toInsert.size();
+	int size = 2;
+	int indexMaxToInsert;
+	int debToInsert = 2;
+	while (nbInsert != 0)
+	{
 
-	
+		indexMaxToInsert = size - 1;
+		insert(debToInsert, endToInsert);
+		temp_size = size;
+		nbInsert -= size;
+		size += old_size;
+		old_size = temp_size;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
 	int j = 4;
 
 
@@ -146,7 +189,7 @@ int main(int argc, char **argv)
 
 		j += size;
 
-	}
+	}*/
 	
 	for (std::vector<int>::iterator it = toInsert.begin(); it != toInsert.end(); ++it)
 	{
