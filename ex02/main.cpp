@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/03 19:45:01 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/03 22:13:39 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,20 +138,16 @@ int main(int argc, char **argv)
 	int debToInsert = 2;
 	while (nbInsert > 0)
 	{
-
+		
 		int interDeb = 0;
 		int interEnd = endToInsert; //non inclus
-		for (int i = endToInsert; i >= debToInsert; ++i)
-		{
-
-			
-			
-			//int interDeb = 0;
-			//int interEnd = i; //non inclus
+		for (int i = endToInsert; i >= 2; --i)
+		{	
 			int nbToInsert = toInsert[i - size];
 			int n = interEnd - interDeb;
 			while (n > 1)
 			{
+		std::cout << nbToInsert << "\n";
 				n /= 2;
 				if (nbToInsert > vecFinal[n])
 					interDeb = n + 1;
@@ -171,70 +167,14 @@ int main(int argc, char **argv)
 					}
 				}
 			}
-			--nbToInsert;
-
-
-
-
-
-
+			--nbInsert;
 		}
 		size += old_size;
 		endToInsert += size;
-		debToInsert += size
+		debToInsert += size;
 
 	}
-/*
-	int temp_size;
-	int size = 2;
-	int indexMaxToInsert;
 
-	int nbInsert = toInsert.size();
-	
-
-	int debToInsert = 2;
-	int endToInsert = debToInsert + size - 1
-	//while (nbInsert != 0)
-	//{
-
-	
-
-
-		debToInsert += size;
-		endToInsert = debToInsert + size - 1*/
-
-
-
-
-
-	/*int n = VecFinal.size();
-	while (n !)
-		temp_size = size;
-		nbInsert -= size;
-		size += old_size;
-		old_size = temp_size;
-	}*/
-
-
-	/*
-	int j = 4;
-
-
-	int size;
-	while (toInsert.size() > 0)
-	{
-		size = p2 - old_size;
-		for (int i = size - 1; i >= 0; ++i)
-		{
-			int numtoinsert = toInsert[i];
-			--j;
-			
-		}
-
-		j += size;
-
-	}*/
-	
 	for (std::vector<int>::iterator it = vecFinal.begin(); it != vecFinal.end(); ++it)
 	{
 		std::cout << *it << " ";
