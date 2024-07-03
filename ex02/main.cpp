@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/03 22:13:39 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/03 22:39:22 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int main(int argc, char **argv)
 		std::cout << it->first << " " << it->second << " ";
 	}
 	std::cout << std::endl;
-	std::cout << "size " << vec.size() - 1 << std::endl;
 	sort(vec, 0, vec.size() - 1);
 
 	std::vector<int> vecFinal;
@@ -137,18 +136,18 @@ int main(int argc, char **argv)
 	int endToInsert = 3;
 	int debToInsert = 2;
 	while (nbInsert > 0)
-	{
-		
-		int interDeb = 0;
-		int interEnd = endToInsert; //non inclus
+	{	
 		for (int i = endToInsert; i >= 2; --i)
-		{	
+		{
+			int interDeb = 0;
+			int interEnd = i; //non inclus
+	
 			int nbToInsert = toInsert[i - size];
 			int n = interEnd - interDeb;
 			while (n > 1)
 			{
-		std::cout << nbToInsert << "\n";
 				n /= 2;
+				std::cout << n << "\n";
 				if (nbToInsert > vecFinal[n])
 					interDeb = n + 1;
 				else
