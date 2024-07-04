@@ -24,12 +24,17 @@ class PmergeMe
     public:
 
         PmergeMe(void);
+        PmergeMe(char **numbersToSort, int size);
         PmergeMe(PmergeMe const& toCopy);
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
 
-        std::vector<std::pair<int, int> > vec;
-
+    private:
+        std::vector<std::pair<int, int> > vecToSort;
+        int lonelyElement;
+        bool isOdd;
+        void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end);
+        void sort(std::vector<std::pair<int, int> >& vec, int deb, int end);
     
 };
 #endif

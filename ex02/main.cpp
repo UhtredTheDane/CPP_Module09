@@ -71,8 +71,9 @@ int main(int argc, char **argv)
 		std::cout << "Usage: ./PmergeMe number [...]" << std::endl;
 		return (1);
 	}
-
-	std::vector<std::pair<int, int> > vec;
+	PmergeMe first(argv + 1, argc - 1);
+	first.runMergeInsert();
+	/*std::vector<std::pair<int, int> > vec;
 	int a;
 	int b;
 	int i;
@@ -101,6 +102,7 @@ int main(int argc, char **argv)
 		std::cout << it->first << " " << it->second << " ";
 	}
 	std::cout << std::endl;
+	
 	sort(vec, 0, vec.size() - 1);
 
 	std::vector<int> vecFinal;
@@ -165,6 +167,6 @@ int main(int argc, char **argv)
 	{
 		std::cout << *it << " ";
 	}
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 	return (0);
 }
