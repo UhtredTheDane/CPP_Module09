@@ -62,24 +62,7 @@ void sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		merge(vec, deb, mid, end);
 	}
 }
-/*
-void insert2(std::vector<int> vecFinal, std::vector<int> test)
-{
-	int n = VecFinal.size();
-	while (n !)
-}
 
-void insert(std::vector<int> vecToInsert, int debToInsert, int endToInsert)
-{
-	std::vector<int> test;
-
-	for (int i = endToInsert; i >= debToInsert; ++i)
-		test.push_back(vecToInsert[i]);
-	insert2();
-	int n = VecFinal.size();
-	while (n !)
-}
-*/
 int main(int argc, char **argv)
 {
 	(void) argv;
@@ -130,9 +113,11 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
+
 	int nbInsert = toInsert.size();
 	int size = 2;
 	int old_size = 0;
+	int temp_size;
 	int endToInsert = 3;
 	int nb = 0;
 	while (nbInsert > 0)
@@ -141,17 +126,16 @@ int main(int argc, char **argv)
 		for (int i = endToInsert; i >= endToInsert - size + 1; --i)
 		{
 			if ((long unsigned int)i - 2 < toInsert.size())
-				temp.push_back(std::pair<int, int>(toInsert[i - 2], i));	
+				temp.push_back(std::pair<int, int>(toInsert[i - 2], i + nb));	
 		}
 		for (std::vector<std::pair<int, int> >::iterator it = temp.begin(); it != temp.end(); ++it)
 		{
 			int interDeb = 0;
-			int interEnd = it->second + nb; //non inclus
+			int interEnd = it->second; //non inclus
 			int n = interEnd - interDeb;
-			std::cout << it->first << std::endl;
+			std::cout << "nb to insert:" << it->first << "interDeb " << interDeb << "et interend " << interEnd << std::endl;
 			while (n > 1)
 			{
-				std::cout << "coucou\n";
 				n /= 2;
 				if (it->first > vecFinal[n])
 				{
@@ -159,14 +143,17 @@ int main(int argc, char **argv)
 				}
 				else
 					interEnd = n;
+				std::cout <<  interEnd - interDeb << "\n";
 				if (interEnd - interDeb <= 1)
 				{
 					if (it->first >  vecFinal[interDeb])
 					{
+						std::cout << "ici\n";
 						vecFinal.insert(vecFinal.begin() + interDeb + 1, it->first);
 					}
 					else
 					{
+						std::cout << "la\n";
 						vecFinal.insert(vecFinal.begin() + interDeb, it->first);
 						++nb;
 					}
@@ -174,7 +161,9 @@ int main(int argc, char **argv)
 			}
 			--nbInsert;
 		}
+		temp_size = size;
 		size += old_size;
+		old_size = temp_size;
 		endToInsert += size;
 		temp.clear();
 
