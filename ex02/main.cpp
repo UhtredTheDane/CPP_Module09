@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/03 22:39:22 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/04 05:58:11 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,35 +134,41 @@ int main(int argc, char **argv)
 	int size = 2;
 	int old_size = 0;
 	int endToInsert = 3;
-	int debToInsert = 2;
+	int nb = 0;
 	while (nbInsert > 0)
 	{	
-		for (int i = endToInsert; i >= 2; --i)
+		std::vector<std::pair<int, int> > temp;
+		for (int i = endToInsert; i >= endToInsert - size + 1; --i)
+		{
+			if ((long unsigned int)i - 2 < toInsert.size())
+				temp.push_back(std::pair<int, int>(toInsert[i - 2], i));	
+		}
+		for (std::vector<std::pair<int, int> >::iterator it = temp.begin(); it != temp.end(); ++it)
 		{
 			int interDeb = 0;
-			int interEnd = i; //non inclus
-	
-			int nbToInsert = toInsert[i - size];
+			int interEnd = it->second + nb; //non inclus
 			int n = interEnd - interDeb;
+			std::cout << it->first << std::endl;
 			while (n > 1)
 			{
+				std::cout << "coucou\n";
 				n /= 2;
-				std::cout << n << "\n";
-				if (nbToInsert > vecFinal[n])
+				if (it->first > vecFinal[n])
+				{
 					interDeb = n + 1;
+				}
 				else
 					interEnd = n;
-				n = interEnd - interDeb;
-				if (n == 1)
+				if (interEnd - interDeb <= 1)
 				{
-					if (nbToInsert >  vecFinal[interDeb])
+					if (it->first >  vecFinal[interDeb])
 					{
-						vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+						vecFinal.insert(vecFinal.begin() + interDeb + 1, it->first);
 					}
 					else
 					{
-						vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
-						++interEnd;
+						vecFinal.insert(vecFinal.begin() + interDeb, it->first);
+						++nb;
 					}
 				}
 			}
@@ -170,7 +176,7 @@ int main(int argc, char **argv)
 		}
 		size += old_size;
 		endToInsert += size;
-		debToInsert += size;
+		temp.clear();
 
 	}
 
