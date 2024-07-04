@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/04 20:54:54 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/05 00:00:50 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int main(int argc, char **argv)
 			vec.push_back(std::pair<int, int>(a, b));
 		}	
 	}
-	/*
+	int oddelem;
+	bool coco = false;
 	if (i < argc - 1)
 	{
-		a = atoi(argv[i + 1]);
-		vec.push_back(a);
-	}*/
-	
+		coco = true;
+		oddelem = atoi(argv[i + 1]);
+	}
 	for (std::vector<std::pair<int, int> >::iterator it = vec.begin(); it != vec.end(); ++it)
 	{
 		std::cout << it->first << " " << it->second << " ";
@@ -113,7 +113,8 @@ int main(int argc, char **argv)
 			toInsert.push_back(it->second);
 		vecFinal.push_back(it->first);
 	}
-
+	if (coco)
+		toInsert.push_back(oddelem);
 	int nbInsert = toInsert.size();
 	int size = 2;
 	int old_size = 0;
@@ -128,38 +129,30 @@ int main(int argc, char **argv)
 			if ((long unsigned int)i-2 < toInsert.size())
 			{
 			int nbToInsert = toInsert[i - 2];
-		       	int index = i + nb + nbInsertAfter;
+			int index = i + nb + nbInsertAfter;
 			int interDeb = 0;
-			int interEnd = index - 1; //non inclus
-			int n = interEnd - interDeb;
-			std::cout << "nb to insert:" << nbToInsert << "interDeb " << interDeb << "et interend " << interEnd << std::endl;
-			while (n > 1)
+			int interEnd = index;
+			while (interEnd - interDeb > 0)
 			{
-				n /= 2;
-				if (nbToInsert > vecFinal[n])
-				{
-					interDeb = n + 1;
-				}
+				int n = (interEnd - interDeb + 1) / 2;
+				if (nbToInsert > vecFinal[n + interDeb])
+					interDeb = n + interDeb + 1;
 				else
-					interEnd = n - 1;
-				std::cout << interEnd - interDeb << "\n";
-				if (interEnd - interDeb <= 1)
+					interEnd = n + interDeb - 1;
+
+				if (interEnd - interDeb <= 0)
 				{
 					if (nbToInsert >  vecFinal[interDeb])
-					{
-						std::cout << "ici\n";
 						vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
-					}
 					else
 					{
-						std::cout << "la\n";
 						vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
 						++nb;
 					}
 				}
 			}
-			--nbInsert;
 			}
+			--nbInsert;
 		}
 		nbInsertAfter += size;
 		temp_size = size;
