@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/05 00:00:50 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:36:11 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		merge(vec, deb, mid, end);
 	}
 }
+
 
 int main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:09:31 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/05 02:01:51 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/05 21:54:19 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ PmergeMe::PmergeMe(char **numbersToSort, int size)
 	int a;
 	int b;
 	int i;
+	popo = size;
 	for (i = 0; i + 1 < size; i += 2)
 	{
 		a = atoi(numbersToSort[i]);
@@ -95,6 +96,17 @@ void PmergeMe::sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		merge(vec, deb, mid, end);
 	}
 }
+bool checkMergeSort(std::vector<int> atester, int size)
+{
+	if (atester.size() != (long unsigned int) size)
+		return (false);
+	for (int i = 0; (long unsigned int)i < atester.size() - 1; ++i)
+	{
+		if (atester[i] > atester[i + 1])
+			return (false);
+	}
+	return (true);
+}
 
 void PmergeMe::runMergeInsert()
 {
@@ -134,9 +146,11 @@ void PmergeMe::runMergeInsert()
 					if (nbToInsert > vecFinal[n + interDeb])
 					{
 						if (n + interDeb + 1 > interEnd)
+						{
+							++nb;
 							vecFinal.insert(vecFinal.begin() + interEnd + 1, nbToInsert);
-						else
-							interDeb = n + interDeb + 1;
+						}
+						interDeb = n + interDeb + 1;
 					}
 					else
 						interEnd = n + interDeb - 1;
@@ -144,12 +158,17 @@ void PmergeMe::runMergeInsert()
 					if (interEnd - interDeb == 0)
 					{
 						if (nbToInsert >  vecFinal[interDeb])
-							vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+						{
+							if (interDeb + 1 != index)
+								++nb;
+vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+						}
 						else
 						{
 							vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
 							++nb;
 						}
+
 					}
 				}
 			}
@@ -167,6 +186,11 @@ void PmergeMe::runMergeInsert()
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
+	if (checkMergeSort(vecFinal, popo))
+		std::cout << "sa marche !\n";
+	else
+		std::cout << "nnnnooooonnnnn !\n";
+		
 }
 
 PmergeMe::PmergeMe(PmergeMe const& toCopy)
