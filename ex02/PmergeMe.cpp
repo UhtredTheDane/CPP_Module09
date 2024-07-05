@@ -127,16 +127,21 @@ void PmergeMe::runMergeInsert()
 				int nbToInsert = toInsert[i - 2];
 				int index = i + nb + nbInsertAfter;
 				int interDeb = 0;
-				int interEnd = index;
+				int interEnd = index - 1;
 				while (interEnd - interDeb > 0)
 				{
 					int n = (interEnd - interDeb + 1) / 2;
 					if (nbToInsert > vecFinal[n + interDeb])
-						interDeb = n + interDeb + 1;
+					{
+						if (n + interDeb + 1 > interEnd)
+							vecFinal.insert(vecFinal.begin() + interEnd + 1, nbToInsert);
+						else
+							interDeb = n + interDeb + 1;
+					}
 					else
 						interEnd = n + interDeb - 1;
 
-					if (interEnd - interDeb <= 0)
+					if (interEnd - interDeb == 0)
 					{
 						if (nbToInsert >  vecFinal[interDeb])
 							vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
