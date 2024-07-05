@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:09:31 by agengemb          #+#    #+#             */
-/*   Updated: 2024/01/09 14:09:32 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/05 02:01:51 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ PmergeMe::PmergeMe(char **numbersToSort, int size)
 	int i;
 	for (i = 0; i + 1 < size; i += 2)
 	{
-		a = atoi(argv[i]);
-		b = atoi(argv[i + 1]);
+		a = atoi(numbersToSort[i]);
+		b = atoi(numbersToSort[i + 1]);
 		if (a < b)
 		{
 			vecToSort.push_back(std::pair<int, int>(b, a));
@@ -39,7 +39,7 @@ PmergeMe::PmergeMe(char **numbersToSort, int size)
 	if (i < size)
 	{
 		isOdd = true;
-		lonelyElement = atoi(argv[i]);
+		lonelyElement = atoi(numbersToSort[i]);
 	}
 	for (std::vector<std::pair<int, int> >::iterator it = vecToSort.begin(); it != vecToSort.end(); ++it)
 	{
@@ -98,12 +98,12 @@ void PmergeMe::sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 
 void PmergeMe::runMergeInsert()
 {
-	sort(vecToSort, 0, vec.size() - 1);
+	sort(vecToSort, 0, vecToSort.size() - 1);
 	std::vector<int> vecFinal;
 	std::vector<int> toInsert;
-	for (std::vector<std::pair<int, int> >::iterator it = vec.begin(); it != vec.end(); ++it)
+	for (std::vector<std::pair<int, int> >::iterator it = vecToSort.begin(); it != vecToSort.end(); ++it)
 	{
-		if (it == vec.begin())
+		if (it == vecToSort.begin())
 			vecFinal.push_back(it->second);
 		else
 			toInsert.push_back(it->second);
