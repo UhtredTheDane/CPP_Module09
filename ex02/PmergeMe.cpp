@@ -96,6 +96,7 @@ void PmergeMe::sort(std::vector<std::pair<int, int> >& vec, int deb, int end)
 		merge(vec, deb, mid, end);
 	}
 }
+
 bool checkMergeSort(std::vector<int> atester, int size)
 {
 	if (atester.size() != (long unsigned int) size)
@@ -108,11 +109,8 @@ bool checkMergeSort(std::vector<int> atester, int size)
 	return (true);
 }
 
-void PmergeMe::runMergeInsert()
+void PmergeMe::fillVectors(void)
 {
-	sort(vecToSort, 0, vecToSort.size() - 1);
-	std::vector<int> vecFinal;
-	std::vector<int> toInsert;
 	for (std::vector<std::pair<int, int> >::iterator it = vecToSort.begin(); it != vecToSort.end(); ++it)
 	{
 		if (it == vecToSort.begin())
@@ -123,63 +121,75 @@ void PmergeMe::runMergeInsert()
 	}
 	if (isOdd)
 		toInsert.push_back(lonelyElement);
+}
+
+void PmergeMe::dichotomyInsert(int index, int nbInsertAfter, int& nb)
+{
+	int nbToInsert = toInsert[index - 2];
+	int interDeb = 0;
+	int interEnd =  index + nb + nbInsertAfter - 1;
+	while (interEnd - interDeb > 0)
+	{
+		int n = (interEnd - interDeb + 1) / 2;
+		if (nbToInsert > vecFinal[n + interDeb])
+		{
+			if (n + interDeb + 1 > interEnd)
+			{
+				++nb;
+				vecFinal.insert(vecFinal.begin() + interEnd + 1, nbToInsert);
+			}
+			interDeb = n + interDeb + 1;
+		}
+		else
+			interEnd = n + interDeb - 1;
+		if (interEnd - interDeb == 0)
+		{
+			if (nbToInsert >  vecFinal[interDeb])
+			{
+				if (interDeb + 1 != index + nb + nbInsertAfter)
+					++nb;
+				vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
+			}
+			else
+			{
+				vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
+				++nb;
+			}
+		}
+	}
+}
+
+void PmergeMe::insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize)
+{
+	int nb = 0;
+	for (int i = endToInsert; i >= endToInsert - groupSize + 1; --i)
+	{
+		if ((long unsigned int) i-2 < toInsert.size())
+		{
+			dichotomyInsert(i, nbInsertAfter, nb);
+			--nbInsert;
+		}
+	}
+}
+
+void PmergeMe::runMergeInsert()
+{
+	sort(vecToSort, 0, vecToSort.size() - 1);
+	fillVectors();
 	int nbInsert = toInsert.size();
-	int size = 2;
+	int groupSize = 2;
 	int old_size = 0;
 	int temp_size;
 	int endToInsert = 3;
 	int nbInsertAfter = 0;
 	while (nbInsert > 0)
 	{	
-		int nb = 0;
-		for (int i = endToInsert; i >= endToInsert - size + 1; --i)
-		{
-			if ((long unsigned int)i-2 < toInsert.size())
-			{
-				int nbToInsert = toInsert[i - 2];
-				int index = i + nb + nbInsertAfter;
-				int interDeb = 0;
-				int interEnd = index - 1;
-				while (interEnd - interDeb > 0)
-				{
-					int n = (interEnd - interDeb + 1) / 2;
-					if (nbToInsert > vecFinal[n + interDeb])
-					{
-						if (n + interDeb + 1 > interEnd)
-						{
-							++nb;
-							vecFinal.insert(vecFinal.begin() + interEnd + 1, nbToInsert);
-						}
-						interDeb = n + interDeb + 1;
-					}
-					else
-						interEnd = n + interDeb - 1;
-
-					if (interEnd - interDeb == 0)
-					{
-						if (nbToInsert >  vecFinal[interDeb])
-						{
-							if (interDeb + 1 != index)
-								++nb;
-vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
-						}
-						else
-						{
-							vecFinal.insert(vecFinal.begin() + interDeb, nbToInsert);
-							++nb;
-						}
-
-					}
-				}
-			}
-			--nbInsert;
-		}
-		nbInsertAfter += size;
-		temp_size = size;
-		size += old_size;
+		insertElems(nbInsert, nbInsertAfter, endToInsert, groupSize);
+		nbInsertAfter += groupSize;
+		temp_size = groupSize;
+		groupSize += old_size;
 		old_size = temp_size;
-		endToInsert += size;
-		
+		endToInsert += groupSize;
 	}
 	for (std::vector<int>::iterator it = vecFinal.begin(); it != vecFinal.end(); ++it)
 	{
@@ -190,7 +200,6 @@ vecFinal.insert(vecFinal.begin() + interDeb + 1, nbToInsert);
 		std::cout << "sa marche !\n";
 	else
 		std::cout << "nnnnooooonnnnn !\n";
-		
 }
 
 PmergeMe::PmergeMe(PmergeMe const& toCopy)

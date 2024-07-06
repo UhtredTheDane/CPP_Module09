@@ -18,6 +18,7 @@
 # include <iostream>
 # include <utility>
 # include <cstdlib>
+# include <ctime>
 
 class PmergeMe
 {
@@ -32,11 +33,18 @@ class PmergeMe
 
     private:
         std::vector<std::pair<int, int> > vecToSort;
+        std::vector<int> vecFinal;
+	    std::vector<int> toInsert;
+
         int lonelyElement;
         bool isOdd;
-        int popo;
-	void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end);
+        int popo;//size
+
+	    void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end);
         void sort(std::vector<std::pair<int, int> >& vec, int deb, int end);
+        void fillVectors(void);
+        void insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
+        void dichotomyInsert(int index, int nbInsertAfter, int& nb);
 };
 #endif
 
