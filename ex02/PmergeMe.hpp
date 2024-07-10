@@ -15,6 +15,7 @@
 
 # include <list>
 # include <vector>
+# include <iterator>
 # include <iostream>
 # include <utility>
 # include <cstdlib>
@@ -29,22 +30,40 @@ class PmergeMe
         PmergeMe(PmergeMe const& toCopy);
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
-	void runMergeInsert();    
+	    void runMergeInsert();    
+        void runMergeInsertList();
+        bool checkMergeSortVector();
+        void showFinalVector();
+        bool checkMergeSortList();
+        void showFinalList();
+        std::list<int> getSortedList(void);
 
     private:
+        void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end);
+        void merge(std::list<std::pair<int, int> >& vec, int deb, int mid, int end);
+        template <typename T>
+        void sort(T& vec, int deb, int end);
+
         std::vector<std::pair<int, int> > vecToSort;
         std::vector<int> vecFinal;
 	    std::vector<int> toInsert;
 
+        std::list<std::pair<int, int> > listToSort;
+        std::list<int> listFinal;
+	    std::list<int> listToInsert;
+
         int lonelyElement;
         bool isOdd;
         int popo;//size
-
-	    void merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end);
-        void sort(std::vector<std::pair<int, int> >& vec, int deb, int end);
+       
         void fillVectors(void);
         void insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
         void dichotomyInsert(int index, int nbInsertAfter, int& nb);
+
+        void fillList(void);
+        void insertElemsList(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
+        void dichotomyInsertList(int index, int nbInsertAfter, int& nb);
+
 };
 #endif
 
