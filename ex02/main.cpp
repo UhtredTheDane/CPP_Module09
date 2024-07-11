@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:56:08 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/11 23:12:55 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/12 01:35:55 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 		std::cout << "Usage: ./PmergeMe number [...]" << std::endl;
 		return (1);
 	}
+	PmergeMe first;
 	start = clock();
 	first.runMergeInsert(argv + 1, argc - 1);
 	end = clock();

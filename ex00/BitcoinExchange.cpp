@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:04:34 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/11 19:02:10 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/12 01:53:23 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,22 +194,27 @@ void BitcoinExchange::showRes(std::string& inputFile)
 	std::string value;
 	float true_value;
 	time_t true_key;
-
-	std::getline(if_ss, record);
+	bool checkIsDone = false;
 	while (std::getline(if_ss, record))
 	{
-		std::stringstream line(record);
-		std::getline(line, key, '|');
-		std::getline(line, value, '\n');
-		try
+		if (!checkIsDone && !record.compare("date | value"))
+			checkIsDone = true;
+		else
 		{
-			true_key = getKey(key);
-			true_value = getValue(value);
-			std::cout << key << "=>" << value << " = " << true_value * getExchangeRate(true_key) << std::endl;
-		}
-		catch(std::exception &e)
-		{
-			std::cout << "Error: " << e.what() << std::endl;
+			std::stringstream line(record);
+			std::getline(line, key, '|');
+			std::getline(line, value, '\n');
+			try
+			{
+				true_key = getKey(key);
+				true_value = getValue(value);
+				std::cout << key << "=>" << value << " = " << true_value * getExchangeRate(true_key) << std::endl;
+			}
+			catch(std::exception &e)
+			{
+				std::cout << "Error: " << e.what() << std::endl;
+			}
+			checkIsDone = true;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:09:44 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/05 19:34:31 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/12 01:36:54 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ class PmergeMe
         PmergeMe(PmergeMe const& toCopy);
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
-	    void runMergeInsert();    
-        void runMergeInsertList();
+	void runMergeInsert(char **numbersToSort, int size);    
+        void runMergeInsertList(char **numbersToSort, int size);
         bool checkMergeSortVector();
         void showFinalVector();
         bool checkMergeSortList();

@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:09:31 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/05 21:54:19 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/12 01:38:06 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void PmergeMe::sort(T& vec, int deb, int end)
 
 bool PmergeMe::checkMergeSortVector()
 {
-	if (vecFinal.size() != (long unsigned int) popo)
+	if (vecFinal.size() != (long unsigned int) elementsNb)
 		return (false);
 	for (int i = 0; (long unsigned int)i < vecFinal.size() - 1; ++i)
 	{
@@ -134,7 +134,7 @@ bool PmergeMe::checkMergeSortVector()
 
 bool PmergeMe::checkMergeSortList()
 {
-	if (listFinal.size() != (long unsigned int) popo)
+	if (listFinal.size() != (long unsigned int) elementsNb)
 		return (false);
 	std::list<int>::iterator itEnd = listFinal.end();
 	std::advance(itEnd, -1);
@@ -350,7 +350,7 @@ void PmergeMe::makeListToSort(char **numbersToSort, int size)
 	}
 }
 
-void PmergeMe::runMergeInsertList(makeListToSort(char **numbersToSort, int size))
+void PmergeMe::runMergeInsertList(char **numbersToSort, int size)
 {
 	makeListToSort(numbersToSort, size);
 	sort(listToSort, 0, listToSort.size() - 1);
