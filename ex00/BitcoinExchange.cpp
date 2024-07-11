@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:04:34 by agengemb          #+#    #+#             */
-/*   Updated: 2024/01/09 13:04:35 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:32:07 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ BitcoinExchange::BitcoinExchange(void)
 
 BitcoinExchange::BitcoinExchange(std::string& dataBase)
 {
-    std::ifstream db_file(dataBase.c_str());
+	std::ifstream db_file(dataBase.c_str());
 	if (!db_file.is_open())
-	{
-    	std::cout << "Could not open the file - '" << dataBase << "'" << std::endl;
-  	}
+		throw std::invalid_argument("Could not open the file - '" + dataBase + "'");
 	std::stringstream db_ss;
 	db_ss << db_file.rdbuf();
 	fillMap(db_ss);
@@ -54,7 +52,7 @@ static time_t getKey(std::string& key)
 	ss_key << key;
 	std::string date;
 	std::getline(ss_key, date, '-');
-		
+
 	struct tm test_date;
 	bzero(&test_date, sizeof( test_date));
 	std::string str_year = date.c_str();
@@ -70,7 +68,7 @@ static time_t getKey(std::string& key)
 	std::string str_day = date.c_str();
 	int num_day = std::atoi(date.c_str());
 	test_date.tm_mday = num_day;
-		
+
 	struct tm copy;
 	bzero(&copy, sizeof( copy ));
 	copy.tm_year = test_date.tm_year;
@@ -79,7 +77,7 @@ static time_t getKey(std::string& key)
 
 	time_t coco = mktime(&test_date);
 	if ( coco == -1 || copy.tm_year != test_date.tm_year || copy.tm_mon != test_date.tm_mon
-	    || copy.tm_mday != test_date.tm_mday )
+			|| copy.tm_mday != test_date.tm_mday )
 		throw(std::invalid_argument(std::string("Bad Input => " + str_year + "-" + str_month + "-" + str_day)));
 	return (coco);
 }
@@ -89,7 +87,7 @@ static float getValue(std::string const& value)
 	double numeric_value;
 	std::stringstream ss_stream(value);
 	ss_stream >> numeric_value;
-	
+
 	if (numeric_value < 0)
 		throw(std::out_of_range("Not a positive number"));
 	if (numeric_value > INT_MAX)
@@ -138,13 +136,13 @@ time_t &test(struct tm& tc, time_t& key)
 	copy.tm_mday = tc.tm_mday;
 	key = mktime(&tc);
 	while (key == -1 || copy.tm_year != tc.tm_year || copy.tm_mon != tc.tm_mon
-	    	|| copy.tm_mday != tc.tm_mday )
+			|| copy.tm_mday != tc.tm_mday )
 	{
-			tc.tm_year = copy.tm_year;
-			tc.tm_mon = copy.tm_mon;
-			tc.tm_mday = copy.tm_mday - 1;
-			copy.tm_mday = tc.tm_mday;
-			key = mktime(&tc);
+		tc.tm_year = copy.tm_year;
+		tc.tm_mon = copy.tm_mon;
+		tc.tm_mday = copy.tm_mday - 1;
+		copy.tm_mday = tc.tm_mday;
+		key = mktime(&tc);
 	}
 	return (key);
 }
@@ -185,9 +183,7 @@ void BitcoinExchange::showRes(std::string& inputFile)
 {
 	std::ifstream if_file(inputFile.c_str());
 	if (!if_file.is_open())
-	{
-    	std::cout << "Could not open the file - '" << inputFile << "'" << std::endl;
-  	}
+		throw std::invalid_argument("Could not open the file - '" + inputFile + "'");
 	std::stringstream if_ss;
 	if_ss << if_file.rdbuf();
 
