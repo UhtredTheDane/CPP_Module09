@@ -6,7 +6,7 @@
 /*   By: agengemb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 13:04:34 by agengemb          #+#    #+#             */
-/*   Updated: 2024/07/11 14:32:07 by agengemb         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:02:10 by agengemb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ float BitcoinExchange::getExchangeRate(time_t& key)
 			tc.tm_mon = 11;
 			--tc.tm_year;
 		}
+		if (tc.tm_year < 0)
+			throw(std::out_of_range("Date not found"));
 		key = test(tc, key);
 	}
 	return (btc_map[key]);
