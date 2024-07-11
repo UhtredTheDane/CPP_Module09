@@ -22,15 +22,14 @@ int main(int argc, char **argv)
 		std::cout << "Usage: ./PmergeMe number [...]" << std::endl;
 		return (1);
 	}
-	PmergeMe first(argv + 1, argc - 1);
 	start = clock();
-	first.runMergeInsert();
+	first.runMergeInsert(argv + 1, argc - 1);
 	end = clock();
 	first.showFinalVector();
 	double clock_per_us = static_cast<double>(CLOCKS_PER_SEC) / 1000000;
 	double timeVector = (end - start) / clock_per_us;
 	start = clock();
-	first.runMergeInsertList();
+	first.runMergeInsertList(argv + 1, argc - 1);
 	end = clock();
 	first.showFinalList();
 	double timeList = (end - start) / clock_per_us;

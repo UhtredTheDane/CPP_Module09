@@ -26,7 +26,6 @@ class PmergeMe
     public:
 
         PmergeMe(void);
-        PmergeMe(char **numbersToSort, int size);
         PmergeMe(PmergeMe const& toCopy);
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
@@ -54,12 +53,14 @@ class PmergeMe
 
         int lonelyElement;
         bool isOdd;
-        int popo;//size
+        int elementsNb;
        
+        void makeVecToSort(char **numbersToSort, int size);
         void fillVectors(void);
         void insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
         void dichotomyInsert(int index, int nbInsertAfter, int& nb);
 
+        void makeListToSort(char **numbersToSort, int size);
         void fillList(void);
         void insertElemsList(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
         void dichotomyInsertList(int index, int nbInsertAfter, int& nb);

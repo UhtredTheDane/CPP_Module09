@@ -14,41 +14,12 @@
 
 PmergeMe::PmergeMe(void)
 {
-
+	
 }
 
 std::list<int> PmergeMe::getSortedList(void)
 {
 	return (listFinal);
-}
-
-PmergeMe::PmergeMe(char **numbersToSort, int size)
-{
-	int a;
-	int b;
-	int i;
-	popo = size;
-	for (i = 0; i + 1 < size; i += 2)
-	{
-		a = atoi(numbersToSort[i]);
-		b = atoi(numbersToSort[i + 1]);
-		if (a < b)
-		{
-			vecToSort.push_back(std::pair<int, int>(b, a));
-			listToSort.push_back(std::pair<int, int>(b, a));
-		}
-		else
-		{
-			vecToSort.push_back(std::pair<int, int>(a, b));
-			listToSort.push_back(std::pair<int, int>(a, b));
-		}	
-	}
-	isOdd = false;
-	if (i < size)
-	{
-		isOdd = true;
-		lonelyElement = atoi(numbersToSort[i]);
-	}
 }
 
 void PmergeMe::merge(std::vector<std::pair<int, int> >& vec, int deb, int mid, int end)
@@ -238,8 +209,33 @@ void PmergeMe::insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, in
 	}
 }
 
-void PmergeMe::runMergeInsert()
+void PmergeMe::makeVecToSort(char **numbersToSort, int size)
 {
+	int a;
+	int b;
+	int i;
+
+	elementsNb = size;
+	isOdd = false;
+	for (i = 0; i + 1 < size; i += 2)
+	{
+		a = atoi(numbersToSort[i]);
+		b = atoi(numbersToSort[i + 1]);
+		if (a < b)
+			vecToSort.push_back(std::pair<int, int>(b, a));
+		else
+			vecToSort.push_back(std::pair<int, int>(a, b));
+	}
+	if (i < size)
+	{
+		isOdd = true;
+		lonelyElement = atoi(numbersToSort[i]);
+	}
+}
+
+void PmergeMe::runMergeInsert(char **numbersToSort, int size)
+{
+	makeVecToSort(numbersToSort, size);
 	sort(vecToSort, 0, vecToSort.size() - 1);
 	fillVectors();
 	int nbInsert = toInsert.size();
@@ -330,8 +326,33 @@ void PmergeMe::dichotomyInsertList(int index, int nbInsertAfter, int& nb)
 	}
 }
 
-void PmergeMe::runMergeInsertList()
+void PmergeMe::makeListToSort(char **numbersToSort, int size)
 {
+	int a;
+	int b;
+	int i;
+
+	elementsNb = size;
+	isOdd = false;
+	for (i = 0; i + 1 < size; i += 2)
+	{
+		a = atoi(numbersToSort[i]);
+		b = atoi(numbersToSort[i + 1]);
+		if (a < b)
+			listToSort.push_back(std::pair<int, int>(b, a));
+		else
+			listToSort.push_back(std::pair<int, int>(a, b));
+	}
+	if (i < size)
+	{
+		isOdd = true;
+		lonelyElement = atoi(numbersToSort[i]);
+	}
+}
+
+void PmergeMe::runMergeInsertList(makeListToSort(char **numbersToSort, int size))
+{
+	makeListToSort(numbersToSort, size);
 	sort(listToSort, 0, listToSort.size() - 1);
 	fillList();
 	
