@@ -29,7 +29,7 @@ class PmergeMe
         PmergeMe(PmergeMe const& toCopy);
         PmergeMe& operator=(PmergeMe const& toAffect);
         ~PmergeMe(void);
-	void runMergeInsert(char **numbersToSort, int size);    
+	    void runMergeInsertVector(char **numbersToSort, int size);    
         void runMergeInsertList(char **numbersToSort, int size);
         bool checkMergeSortVector();
         void showFinalVector();
@@ -42,6 +42,8 @@ class PmergeMe
         void merge(std::list<std::pair<int, int> >& vec, int deb, int mid, int end);
         template <typename T>
         void sort(T& vec, int deb, int end);
+        bool isAlreadySort(char **numbersToSort, int size);
+        void fillAlreadySort(char **numbersToSort, int size, int type);
 
         std::vector<std::pair<int, int> > vecToSort;
         std::vector<int> vecFinal;
@@ -56,9 +58,9 @@ class PmergeMe
         int elementsNb;
        
         void makeVecToSort(char **numbersToSort, int size);
-        void fillVectors(void);
-        void insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
-        void dichotomyInsert(int index, int nbInsertAfter, int& nb);
+        void fillVector(void);
+        void insertElemsVector(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize);
+        void dichotomyInsertVector(int index, int nbInsertAfter, int& nb);
 
         void makeListToSort(char **numbersToSort, int size);
         void fillList(void);

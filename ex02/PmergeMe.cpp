@@ -146,7 +146,53 @@ bool PmergeMe::checkMergeSortList()
 	return (true);
 }
 
-void PmergeMe::fillVectors(void)
+bool PmergeMe::isAlreadySort(char **numbersToSort, int size)
+{
+	int j;
+	if (size == 1)
+	{
+		j = 0;
+		while (numbersToSort[0][j])
+		{
+			if (numbersToSort[0][j] < '0' || numbersToSort[0][j] > '9')
+				throw (std::invalid_argument(std::string("Not a valid number")));
+			++j;
+		}
+	}
+	for (int i = 0; i < size - 1; ++i)
+	{
+		j = 0;
+		while (numbersToSort[i][j])
+		{
+			if ((numbersToSort[i][j] < '0' || numbersToSort[i][j] > '9'))
+				throw (std::invalid_argument(std::string("Not a valid number")));
+			++j;
+		}
+		j = 0;
+		while (numbersToSort[i + 1][j])
+		{
+			if ((numbersToSort[i + 1][j] < '0' || numbersToSort[i + 1][j] > '9'))
+				throw (std::invalid_argument(std::string("Not a valid number")));
+			++j;
+		}
+		if (atoi(numbersToSort[i]) > atoi(numbersToSort[i + 1]))
+			return (false);
+	}
+	return (true);
+}
+
+void PmergeMe::fillAlreadySort(char **numbersToSort, int size, int type)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		if (type == 0)
+			vecFinal.push_back(atoi(numbersToSort[i]));
+		else
+			listFinal.push_back(atoi(numbersToSort[i]));
+	}
+}
+
+void PmergeMe::fillVector(void)
 {
 	for (std::vector<std::pair<int, int> >::iterator it = vecToSort.begin(); it != vecToSort.end(); ++it)
 	{
@@ -160,7 +206,7 @@ void PmergeMe::fillVectors(void)
 		toInsert.push_back(lonelyElement);
 }
 
-void PmergeMe::dichotomyInsert(int index, int nbInsertAfter, int& nb)
+void PmergeMe::dichotomyInsertVector(int index, int nbInsertAfter, int& nb)
 {
 	int nbToInsert = toInsert[index - 2];
 	int interDeb = 0;
@@ -196,14 +242,14 @@ void PmergeMe::dichotomyInsert(int index, int nbInsertAfter, int& nb)
 	}
 }
 
-void PmergeMe::insertElems(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize)
+void PmergeMe::insertElemsVector(int& nbInsert, int nbInsertAfter, int endToInsert, int groupSize)
 {
 	int nb = 0;
 	for (int i = endToInsert; i >= endToInsert - groupSize + 1; --i)
 	{
 		if ((long unsigned int) i-2 < toInsert.size())
 		{
-			dichotomyInsert(i, nbInsertAfter, nb);
+			dichotomyInsertVector(i, nbInsertAfter, nb);
 			--nbInsert;
 		}
 	}
@@ -233,25 +279,38 @@ void PmergeMe::makeVecToSort(char **numbersToSort, int size)
 	}
 }
 
-void PmergeMe::runMergeInsert(char **numbersToSort, int size)
+void PmergeMe::runMergeInsertVector(char **numbersToSort, int size)
 {
-	makeVecToSort(numbersToSort, size);
-	sort(vecToSort, 0, vecToSort.size() - 1);
-	fillVectors();
-	int nbInsert = toInsert.size();
-	int groupSize = 2;
-	int old_size = 0;
-	int temp_size;
-	int endToInsert = 3;
-	int nbInsertAfter = 0;
-	while (nbInsert > 0)
-	{	
-		insertElems(nbInsert, nbInsertAfter, endToInsert, groupSize);
-		nbInsertAfter += groupSize;
-		temp_size = groupSize;
-		groupSize += old_size;
-		old_size = temp_size;
-		endToInsert += groupSize;
+	try
+	{
+		if (isAlreadySort(numbersToSort, size))
+			fillAlreadySort(numbersToSort, size, 0);
+		else
+		{
+			makeVecToSort(numbersToSort, size);
+			sort(vecToSort, 0, vecToSort.size() - 1);
+			fillVector();
+			int nbInsert = toInsert.size();
+			int groupSize = 2;
+			int old_size = 0;
+			int temp_size;
+			int endToInsert = 3;
+			int nbInsertAfter = 0;
+			while (nbInsert > 0)
+			{	
+				insertElemsVector(nbInsert, nbInsertAfter, endToInsert, groupSize);
+				nbInsertAfter += groupSize;
+				temp_size = groupSize;
+				groupSize += old_size;
+				old_size = temp_size;
+				endToInsert += groupSize;
+			}
+		}
+	}
+	catch(std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+		throw (e);
 	}
 }
 
@@ -352,25 +411,36 @@ void PmergeMe::makeListToSort(char **numbersToSort, int size)
 
 void PmergeMe::runMergeInsertList(char **numbersToSort, int size)
 {
-	makeListToSort(numbersToSort, size);
-	sort(listToSort, 0, listToSort.size() - 1);
-	fillList();
-	
-	
-	int nbInsert = listToInsert.size();
-	int groupSize = 2;
-	int old_size = 0;
-	int temp_size;
-	int endToInsert = 3;
-	int nbInsertAfter = 0;
-	while (nbInsert > 0)
-	{	
-		insertElemsList(nbInsert, nbInsertAfter, endToInsert, groupSize);
-		nbInsertAfter += groupSize;
-		temp_size = groupSize;
-		groupSize += old_size;
-		old_size = temp_size;
-		endToInsert += groupSize;
+	try
+	{
+		if (isAlreadySort(numbersToSort, size))
+			fillAlreadySort(numbersToSort, size, 1);
+		else
+		{
+			makeListToSort(numbersToSort, size);
+			sort(listToSort, 0, listToSort.size() - 1);
+			fillList();
+			int nbInsert = listToInsert.size();
+			int groupSize = 2;
+			int old_size = 0;
+			int temp_size;
+			int endToInsert = 3;
+			int nbInsertAfter = 0;
+			while (nbInsert > 0)
+			{	
+				insertElemsList(nbInsert, nbInsertAfter, endToInsert, groupSize);
+				nbInsertAfter += groupSize;
+				temp_size = groupSize;
+				groupSize += old_size;
+				old_size = temp_size;
+				endToInsert += groupSize;
+			}
+		}
+	}
+	catch(std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+		throw(e);
 	}
 }
 

@@ -46,7 +46,9 @@ void RPN::resolve(char c)
 			  break;
 		case '-': mstack.push(a - b);
 			  break;
-		case '/': mstack.push(a / b);
+		case '/': if (b == 0)
+					throw (std::invalid_argument(std::string("Division by zero")));
+				mstack.push(a / b);
 			  break;
 		default:  mstack.push(a * b);
 	}
@@ -83,9 +85,7 @@ RPN::RPN(RPN const& toCopy)
 RPN const& RPN::operator=(RPN const& toAffect)
 {
 	if (this != &toAffect)
-	{
 		mstack = toAffect.mstack;
-	}
 	return (*this);
 }
 
