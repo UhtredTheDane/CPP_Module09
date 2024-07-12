@@ -135,7 +135,10 @@ bool PmergeMe::checkMergeSortVector()
 bool PmergeMe::checkMergeSortList()
 {
 	if (listFinal.size() != (long unsigned int) elementsNb)
+	{
+		std::cout << listFinal.size() << " " << elementsNb << std::endl;
 		return (false);
+	}
 	std::list<int>::iterator itEnd = listFinal.end();
 	std::advance(itEnd, -1);
 	for (std::list<int>::iterator it = listFinal.begin(); it != itEnd;)
@@ -148,7 +151,9 @@ bool PmergeMe::checkMergeSortList()
 
 bool PmergeMe::isAlreadySort(char **numbersToSort, int size)
 {
+	bool res = true;
 	int j;
+	elementsNb = size;
 	if (size == 1)
 	{
 		j = 0;
@@ -161,24 +166,25 @@ bool PmergeMe::isAlreadySort(char **numbersToSort, int size)
 	}
 	for (int i = 0; i < size - 1; ++i)
 	{
+	
 		j = 0;
 		while (numbersToSort[i][j])
 		{
-			if ((numbersToSort[i][j] < '0' || numbersToSort[i][j] > '9'))
+			if (numbersToSort[i][j] < '0' || numbersToSort[i][j] > '9')
 				throw (std::invalid_argument(std::string("Not a valid number")));
 			++j;
 		}
 		j = 0;
 		while (numbersToSort[i + 1][j])
 		{
-			if ((numbersToSort[i + 1][j] < '0' || numbersToSort[i + 1][j] > '9'))
+			if (numbersToSort[i + 1][j] < '0' || numbersToSort[i + 1][j] > '9')
 				throw (std::invalid_argument(std::string("Not a valid number")));
 			++j;
 		}
 		if (atoi(numbersToSort[i]) > atoi(numbersToSort[i + 1]))
-			return (false);
+			res = false;
 	}
-	return (true);
+	return (res);
 }
 
 void PmergeMe::fillAlreadySort(char **numbersToSort, int size, int type)
